@@ -15,9 +15,8 @@ from torchmeta.utils.data import BatchMetaDataLoader
 from torchmeta.transforms import Categorical, ClassSplitter
 
 from gbml.maml_functional_forward import MAML
-from gbml.imaml_v2 import iMAML
 from gbml.fomaml_ff import FOMAML
-from gbml.reptile_final import Reptile
+from gbml.reptile_functional_forward import Reptile
 from utils import set_seed, set_gpu, check_dir, dict2tsv, BestTracker, set_logger
 
 
@@ -264,6 +263,8 @@ def parse_args():
     parser.add_argument('--num_workers', type=int, default=4,
                         help='Number of workers for data loading (default: 4).')
     parser.add_argument('--dataset', type=str, default='omniglot')
+    parser.add_argument('--exp', type=str,
+                        help='exp name', default='exp')
     # training settings
     parser.add_argument('--num_epoch', type=int, default=400,
                         help='Number of epochs for meta train.')
@@ -297,16 +298,6 @@ def parse_args():
     parser.add_argument('--in_channels', type=int, default=3)
     parser.add_argument('--hidden_channels', type=int, default=64,
                         help='Number of channels for each convolutional layer (default: 64).')
-
-    # Added flags
-    parser.add_argument('--TTSA', type=str, default='False')
-    parser.add_argument('--exp', type=str,
-                        help='exp name', default='exp')
-    parser.add_argument('--imaml_reg', type=str, default='False')
-    parser.add_argument(
-        '--n_cg', type=int, help='conjugate gradient steps for inner solver', default=1)
-    parser.add_argument('--lamb', type=float,
-                        help='regularization factor', default=100)
     args = parser.parse_args()
     return args
 
